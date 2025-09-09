@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import {
   PieChart,
   LogOut,
-  Bell,
   Menu,
   X,
   Crown,
@@ -34,6 +33,7 @@ import { authService, AuthUser, Business } from '@/lib/auth-service';
 import { dataManager, BusinessMetrics } from '@/lib/data-manager';
 import { useBranchContext } from '@/lib/use-branch-context';
 import BranchSwitcher from '@/components/BranchSwitcher';
+import NotificationsInbox from '@/components/NotificationsInbox';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -180,11 +180,8 @@ export default function Dashboard() {
               )}
 
               {/* Notifications */}
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs"></span>
-              </Button>
-              
+              <NotificationsInbox />
+
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
                   {permissions.isOwner ? <Crown className="w-4 h-4 text-yellow-600" /> : <User className="w-4 h-4 text-gray-600" />}
