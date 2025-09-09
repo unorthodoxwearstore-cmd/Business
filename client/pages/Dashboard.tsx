@@ -142,10 +142,9 @@ export default function Dashboard() {
                   <PieChart className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    Insygth
+                  <span className="text-xl font-bold text-gray-900">
+                    {business.name}
                   </span>
-                  <p className="text-xs text-gray-500 hidden sm:block">{business.name}</p>
                 </div>
               </div>
             </div>

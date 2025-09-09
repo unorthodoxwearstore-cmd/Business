@@ -655,7 +655,6 @@ export const DASHBOARD_MODULES = {
     { id: 'quotations', title: 'Quotations', icon: 'FileText', path: '/dashboard/service/quotations' }
   ],
   manufacturer: [
-    { id: 'raw-materials', title: 'Raw Materials', icon: 'Package2', path: '/dashboard/manufacturer/raw-material-inventory' },
     { id: 'production', title: 'Production', icon: 'Factory', path: '/dashboard/manufacturer/production-planning' },
     { id: 'bom', title: 'Bill of Materials', icon: 'FileText', path: '/dashboard/manufacturer/bill-of-materials' },
     { id: 'cost-calculation', title: 'Cost Calculator', icon: 'Calculator', path: '/dashboard/manufacturer/cost-per-unit' }

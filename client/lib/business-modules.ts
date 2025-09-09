@@ -52,7 +52,7 @@ export const COMMON_MODULES: BusinessModule[] = [
     title: 'Add Sale & Invoice',
     description: 'Create sales and generate professional invoices',
     icon: 'FileText',
-    path: '/dashboard/add-sale',
+    path: '/sales/new',
     businessTypes: ['retailer', 'ecommerce', 'service', 'manufacturer', 'wholesaler', 'distributor', 'trader'],
     allowedRoles: ['owner', 'co_founder', 'manager', 'accountant', 'sales_executive'],
     category: 'sales',
@@ -769,18 +769,6 @@ export const BUSINESS_MODULES: BusinessModule[] = [
   },
 
   // =================== MANUFACTURER SPECIFIC ===================
-  {
-    id: 'raw-material-inventory',
-    title: 'Raw Material Stock Tracking',
-    description: 'Track raw materials with suppliers and costs',
-    icon: 'Package2',
-    path: '/dashboard/manufacturer/raw-material-inventory',
-    businessTypes: ['manufacturer'],
-    allowedRoles: ['owner', 'co_founder', 'manager', 'staff', 'inventory_manager', 'production'],
-    category: 'inventory',
-    priority: 1,
-    isSpecialized: true
-  },
   {
     id: 'recipe',
     title: 'Recipe',

@@ -52,7 +52,7 @@ import WhatsAppDashboard from "./pages/dashboard/WhatsAppDashboard";
 import PaymentReminders from "./pages/dashboard/PaymentReminders";
 import InventoryBatches from "./pages/dashboard/InventoryBatches";
 import Inventory from "./pages/dashboard/InventoryEnhanced";
-import AddSale from "./pages/dashboard/AddSale";
+import NewSale from "./pages/sales/NewSale";
 import SalesDocuments from "./pages/dashboard/SalesDocuments";
 import InvoicePreview from "./pages/dashboard/InvoicePreview";
 import ProductManagement from "./pages/dashboard/ProductManagement";
@@ -216,9 +216,9 @@ const App = () => (
               <Inventory />
             </ProtectedRoute>
           } />
-          <Route path="/dashboard/add-sale" element={
+          <Route path="/sales/new" element={
             <ProtectedRoute requiredPermission="viewAddEditOrders">
-              <AddSale />
+              <NewSale />
             </ProtectedRoute>
           } />
           <Route path="/dashboard/sales-documents" element={
@@ -320,11 +320,6 @@ const App = () => (
           <Route path="/dashboard/wholesaler/client-profitability" element={<PlaceholderPage title="Client Profitability" description="Analyze profit margins and ROI per client relationship." feature="Profitability analysis" />} />
 
           {/* Manufacturer specific routes */}
-          <Route path="/dashboard/manufacturer/raw-material-inventory" element={
-            <ProtectedRoute requiredPermission="addEditDeleteProducts">
-              <RawMaterialInventory />
-            </ProtectedRoute>
-          } />
           <Route path="/dashboard/manufacturer/recipe" element={
             <ProtectedRoute requiredPermission="addEditDeleteProducts">
               <RecipePage />
@@ -338,11 +333,6 @@ const App = () => (
           <Route path="/dashboard/manufacturer/production-logs" element={
             <ProtectedRoute requiredPermission="addEditDeleteProducts">
               <ProductionLogs />
-            </ProtectedRoute>
-          } />
-          <Route path="/dashboard/manufacturer/raw-material-tracking" element={
-            <ProtectedRoute requiredPermission="addEditDeleteProducts">
-              <RawMaterialTracking />
             </ProtectedRoute>
           } />
           <Route path="/dashboard/manufacturer/production-planning" element={<PlaceholderPage title="Production Planning" description="Plan and schedule production runs with resource allocation." feature="Production planning" />} />

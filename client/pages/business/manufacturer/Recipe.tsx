@@ -58,12 +58,7 @@ export default function RecipePage() {
           <form onSubmit={submit} className="space-y-4">
             <div>
               <Label>Product Name</Label>
-              <Select value={productId} onValueChange={setProductId}>
-                <SelectTrigger><SelectValue placeholder="Select product" /></SelectTrigger>
-                <SelectContent>
-                  {(products || []).map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
-                </SelectContent>
-              </Select>
+              <Input placeholder="Enter product name" value={productId} onChange={e => setProductId(e.target.value)} />
             </div>
 
             <div className="space-y-2">
