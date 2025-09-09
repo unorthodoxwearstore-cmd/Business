@@ -2,6 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { RecipeSchema, type RecipeInput, type Recipe } from '@/lib/validators/recipe';
 import { recipeRepository } from '@/services/indexeddb/repositories/recipeRepository';
 import { rawMaterialRepository } from '@/services/indexeddb/repositories/rawMaterialRepository';
+import { notificationService } from '@/lib/notification-service';
+import { notificationsApi } from '@/lib/notifications-api';
 
 export function computeRecipeUnitCost(components: { materialId: string; quantity: number }[], materials: { id: string; unitPrice: number }[]) {
   const breakdown = components.map(c => {
@@ -26,7 +28,17 @@ export function useAddRecipe() {
       const materials = await rawMaterialRepository.getAll();
       const { unitCost, breakdown } = computeRecipeUnitCost(parsed.components, materials);
       const record: Omit<Recipe, 'id'> = { productId: parsed.productId, components: parsed.components, unitCost, breakdown } as any;
-      return recipeRepository.add(record);
+      const saved = await recipeRepository.add(record);
+      try {
+        notificationService.success('Recipe created', 'Recipe has been created successfully');
+        notificationsApi.create({
+          type: 'recipe',
+          title: 'Recipe created',
+          message: `A recipe for selected product was created (unit cost ${unitCost.toFixed(2)})`,
+          link: '/dashboard/manufacturer/recipe',
+        });
+      } catch {}
+      return saved;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['recipes'] })
   });
