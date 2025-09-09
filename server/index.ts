@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleSignup, handleOwnerSignin, handleStaffSignin } from "./routes/auth";
+import { getNotifications, postNotification, patchNotification, markAllRead } from "./routes/notifications";
 
 export function createServer() {
   const app = express();
@@ -24,6 +25,12 @@ export function createServer() {
   app.post("/api/auth/signup", handleSignup);
   app.post("/api/auth/owner-signin", handleOwnerSignin);
   app.post("/api/auth/staff-signin", handleStaffSignin);
+
+  // Notifications API
+  app.post("/api/notifications", postNotification);
+  app.get("/api/notifications", getNotifications);
+  app.patch("/api/notifications/:id", patchNotification);
+  app.post("/api/notifications/mark-all-read", markAllRead);
 
   return app;
 }
