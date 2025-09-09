@@ -5,7 +5,29 @@ export const recipeRepository = {
   async add(recipe: Omit<Recipe, 'id'>): Promise<Recipe> {
     const db = await getDB();
     const id = `recipe_${crypto.randomUUID()}`;
-    const record: Recipe = { ...recipe, id } as Recipe;
+
+    let unitCost = recipe.unitCost ?? 0;
+    let breakdown = recipe.breakdown ?? [];
+
+    // Compute unitCost from provided breakdown if needed
+    if ((!unitCost || unitCost === 0) && breakdown.length > 0) {
+      unitCost = breakdown.reduce((sum, row) => sum + (row.cost ?? 0), 0);
+    }
+
+    // If still missing, derive breakdown and unitCost from raw materials and component quantities
+    if ((!unitCost || unitCost === 0) && breakdown.length === 0 && recipe.components?.length) {
+      const computed = [] as { materialId: string; unitCost: number; quantity: number; cost: number }[];
+      for (const c of recipe.components) {
+        const material = await rawMaterialRepository.getById(c.materialId);
+        const perUnit = (material as any)?.unitPrice ?? (material as any)?.pricePerUnit ?? 0;
+        const cost = perUnit * c.quantity;
+        computed.push({ materialId: c.materialId, unitCost: perUnit, quantity: c.quantity, cost });
+      }
+      breakdown = computed;
+      unitCost = computed.reduce((sum, row) => sum + row.cost, 0);
+    }
+
+    const record: Recipe = { ...(recipe as any), id, unitCost, breakdown } as Recipe;
     await db.put('recipes', record);
     return record;
   },
