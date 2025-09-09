@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import 'fake-indexeddb/auto';
 import { staffRequestRepository } from '@/services/indexeddb/repositories/staffRequestRepository';
 
 async function approveAs(role: 'owner'|'staff', id: string) {
