@@ -120,7 +120,6 @@ class DataFlowService {
 
     // Production activities affect inventory and costs
     this.subscribe('production_started', (data) => {
-      this.updateRawMaterialInventory(data);
       this.updateProductionCosts(data);
       this.triggerNotification('production_started', data);
     });
@@ -193,9 +192,6 @@ class DataFlowService {
     console.log('Updating service usage analytics');
   }
 
-  private updateRawMaterialInventory(data: DataFlowEventData): void {
-    console.log('Updating raw material inventory from production');
-  }
 
   private updateProductionCosts(data: DataFlowEventData): void {
     console.log('Updating production cost calculations');

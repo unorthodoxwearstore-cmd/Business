@@ -24,8 +24,6 @@ import ProductCatalog from "./pages/business/ecommerce/ProductCatalog";
 import BookingScheduling from "./pages/business/service/BookingScheduling";
 import CommissionManagement from "./pages/business/wholesale/CommissionManagement";
 // Manufacturer components
-import RawMaterialTracking from "./pages/business/manufacturer/RawMaterialTracking";
-import RawMaterialInventory from "./pages/business/manufacturer/RawMaterialInventory";
 import RecipePage from "./pages/business/manufacturer/Recipe";
 import ProductionPage from "./pages/business/manufacturer/Production";
 import ProductionLogs from "./pages/business/manufacturer/ProductionLogs";

@@ -1308,8 +1308,8 @@ export function getBusinessTypeConfig(businessType: BusinessType) {
       name: 'Manufacturer',
       description: 'Production and manufacturing operations',
       primaryColor: 'orange',
-      features: ['Raw Materials', 'Cost Calculator', 'Production Planning', 'Quality Control'],
-      mainModules: ['raw-material-inventory', 'cost-per-unit', 'production-planning', 'waste-tracking']
+      features: ['Recipe Management', 'Cost Calculator', 'Production Planning', 'Quality Control'],
+      mainModules: ['recipe', 'cost-per-unit', 'production', 'waste-tracking']
     },
     wholesaler: {
       name: 'Wholesaler',
