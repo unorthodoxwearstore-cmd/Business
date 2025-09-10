@@ -4,6 +4,8 @@ import { productRepository } from '@/services/indexeddb/repositories/productRepo
 import { recipeRepository } from '@/services/indexeddb/repositories/recipeRepository';
 import { productionPlanRepository } from '@/services/indexeddb/repositories/productionPlanRepository';
 
+import 'fake-indexeddb/auto';
+
 describe('Recipe and Production calculations', () => {
   beforeEach(async () => {
     // no-op: fake-indexeddb resets per test file in this setup

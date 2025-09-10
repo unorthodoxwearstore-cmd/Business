@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const PaymentModeEnum = z.enum(['GPay', 'Card', 'Cash']);
+export const PaymentModeEnum = z.enum(['UPI', 'Card', 'Cash']);
 export const PaymentStatusEnum = z.enum(['Paid', 'Pending']);
 
 export const SaleInvoiceSchema = z.object({

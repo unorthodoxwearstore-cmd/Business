@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useProducts } from '@/hooks/useProduct';
 import { useRawMaterials } from '@/hooks/useRawMaterial';
 import { useAddRecipe, useDeleteRecipe, useRecipes } from '@/hooks/useRecipe';
+import BackButton from '@/components/BackButton';
 
 export default function RecipePage() {
   const { data: products } = useProducts();
@@ -44,7 +45,10 @@ export default function RecipePage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900">Recipe</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-gray-900">Recipes</h1>
+        <BackButton />
+      </div>
 
       <Card>
         <CardHeader>
@@ -53,13 +57,8 @@ export default function RecipePage() {
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div>
-              <Label>Finished Product</Label>
-              <Select value={productId} onValueChange={setProductId}>
-                <SelectTrigger><SelectValue placeholder="Select product" /></SelectTrigger>
-                <SelectContent>
-                  {(products || []).map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
-                </SelectContent>
-              </Select>
+              <Label>Product Name</Label>
+              <Input placeholder="Enter product name" value={productId} onChange={e => setProductId(e.target.value)} />
             </div>
 
             <div className="space-y-2">

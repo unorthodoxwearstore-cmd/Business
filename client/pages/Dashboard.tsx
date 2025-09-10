@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   PieChart,
   LogOut,
-  Bell,
   Menu,
   X,
   Crown,
@@ -34,6 +34,7 @@ import { authService, AuthUser, Business } from '@/lib/auth-service';
 import { dataManager, BusinessMetrics } from '@/lib/data-manager';
 import { useBranchContext } from '@/lib/use-branch-context';
 import BranchSwitcher from '@/components/BranchSwitcher';
+import NotificationsInbox from '@/components/NotificationsInbox';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -141,10 +142,9 @@ export default function Dashboard() {
                   <PieChart className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    Insygth
+                  <span className="text-xl font-bold text-gray-900">
+                    {business.name}
                   </span>
-                  <p className="text-xs text-gray-500 hidden sm:block">{business.name}</p>
                 </div>
               </div>
             </div>
@@ -180,11 +180,8 @@ export default function Dashboard() {
               )}
 
               {/* Notifications */}
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs"></span>
-              </Button>
-              
+              <NotificationsInbox />
+
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
                   {permissions.isOwner ? <Crown className="w-4 h-4 text-yellow-600" /> : <User className="w-4 h-4 text-gray-600" />}
@@ -533,6 +530,49 @@ export default function Dashboard() {
                 })}
               </div>
             </div>
+
+            {/* Manufacturer Production/Recipe Tabs (manufacturer only) */}
+            {permissions.businessType === 'manufacturer' && (
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Manufacturing</h2>
+                <Tabs defaultValue="production" className="w-full">
+                  <TabsList className="grid grid-cols-2 w-full">
+                    <TabsTrigger value="production">Production</TabsTrigger>
+                    <TabsTrigger value="recipe">Recipe</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="production">
+                    <Card className="border-0 shadow-md">
+                      <CardHeader>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                          <div>
+                            <CardTitle className="text-lg">Plan Production</CardTitle>
+                            <CardDescription>Create production orders, assign staff, and estimate costs</CardDescription>
+                          </div>
+                          <Link to="/dashboard/manufacturer/production">
+                            <Button size="sm" className="w-full sm:w-auto">Open Production</Button>
+                          </Link>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="recipe">
+                    <Card className="border-0 shadow-md">
+                      <CardHeader>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                          <div>
+                            <CardTitle className="text-lg">Manage Recipes</CardTitle>
+                            <CardDescription>Define material breakdowns and live unit costs</CardDescription>
+                          </div>
+                          <Link to="/dashboard/manufacturer/recipe">
+                            <Button size="sm" className="w-full sm:w-auto">Open Recipes</Button>
+                          </Link>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            )}
 
             {/* Staff Management Quick Actions */}
             {(permissions.hasPermission('manage_team') || permissions.hasPermission('hrAndStaffAttendance')) && (

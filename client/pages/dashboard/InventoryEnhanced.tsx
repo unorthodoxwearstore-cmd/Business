@@ -51,6 +51,9 @@ import SpeechAddPanel from '@/components/speech/SpeechAddPanel';
 import SpeechReviewModal from '@/components/speech/SpeechReviewModal';
 import AddProductForm from '@/components/forms/AddProductForm';
 import AddRawMaterialForm from '@/components/forms/AddRawMaterialForm';
+import { rawMaterialRepository } from '@/services/indexeddb/repositories/rawMaterialRepository';
+import type { RawMaterial } from '@/lib/validators/rawMaterial';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: string;
@@ -174,6 +177,7 @@ export default function InventoryEnhanced() {
   const [headerSticky, setHeaderSticky] = useState(false);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [addTab, setAddTab] = useState<'finished'|'raw'>('finished');
+  const [rawMaterials, setRawMaterials] = useState<RawMaterial[]>([]);
 
   // Enhanced state
   const [lowStockProducts, setLowStockProducts] = useState<any[]>([]);
@@ -254,6 +258,9 @@ export default function InventoryEnhanced() {
     if (stored) {
       setRecentItems(JSON.parse(stored));
     }
+
+    // Load raw materials from IndexedDB
+    rawMaterialRepository.getAll().then(setRawMaterials).catch(() => setRawMaterials([]));
   }, []); // Run only once on mount
 
   useEffect(() => {
@@ -1079,6 +1086,66 @@ export default function InventoryEnhanced() {
                     <SmartImportButton onImport={(t)=>{ setImportSource(t); setShowImport(true); }} />
                   </div>
                 )}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Raw Material Inventory */}
+      <Card className="mt-6">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                Raw Material Inventory
+              </CardTitle>
+              <CardDescription>
+                Track raw materials with quantities and unit costs
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link to="/dashboard/manufacturer/raw-material-inventory">
+                <Button variant="outline" size="sm">
+                  Manage
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {rawMaterials.map((rm) => (
+              <div key={rm.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 rounded-lg border transition-all hover:shadow-md hover:bg-gray-50 gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium truncate">{rm.name}</p>
+                  <p className="text-sm text-gray-500">
+                    Category: {rm.category} • Unit: {rm.unit} • Qty: {rm.quantity}
+                    {rm.warehouse && ` • Warehouse: ${rm.warehouse}`}
+                    {rm.expiry && ` • Expiry: ${rm.expiry}`}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm font-medium">Unit Cost: {formatCurrency(rm.unitPrice || 0)}</span>
+                  <span className="text-sm text-gray-500">Total: {formatCurrency((rm.unitPrice || 0) * rm.quantity)}</span>
+                </div>
+              </div>
+            ))}
+
+            {rawMaterials.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                <Warehouse className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                <h3 className="text-lg font-medium mb-2">No raw materials found</h3>
+                <p className="text-sm mb-4">Add raw materials to start tracking stock and costs</p>
+                <div className="flex gap-2 justify-center">
+                  <Button onClick={() => { setAddTab('raw'); setShowAddDialog(true); }}>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Raw Material
+                  </Button>
+                  <Link to="/dashboard/manufacturer/raw-material-inventory">
+                    <Button variant="outline">Open Raw Materials</Button>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
