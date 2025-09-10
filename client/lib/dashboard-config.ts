@@ -138,14 +138,6 @@ export const KPI_CONFIGS: KPIConfig[] = [
     permissions: ['view_basic_analytics'],
     businessTypes: ['manufacturer']
   },
-  {
-    id: 'raw_material_stock',
-    title: 'Raw Material Stock',
-    icon: 'Package2',
-    category: 'inventory',
-    permissions: ['view_inventory'],
-    businessTypes: ['manufacturer']
-  },
 
   // Wholesaler specific KPIs
   {
@@ -293,7 +285,7 @@ function generateQuickActions(
         title: 'Add Sale & Invoice',
         description: 'Create sale and generate invoice',
         icon: 'FileText',
-        path: '/dashboard/add-sale',
+        path: '/sales/new',
         category: 'primary',
         priority: 2,
         permissions: ['viewAddEditOrders']
@@ -403,16 +395,6 @@ function generateQuickActions(
         category: 'primary',
         priority: 1,
         permissions: ['addEditDeleteProducts']
-      },
-      {
-        id: 'check_materials',
-        title: 'Check Materials',
-        description: 'View raw material stock',
-        icon: 'Package2',
-        path: '/dashboard/manufacturer/raw-material-inventory',
-        category: 'primary',
-        priority: 2,
-        permissions: ['view_inventory']
       },
       {
         id: 'calculate_cost',
